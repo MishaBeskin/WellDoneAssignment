@@ -1,0 +1,8 @@
+.flex-contianer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cursor {
+  cursor: pointer;
+}

@@ -1,0 +1,39 @@
+
+<div class="modal-header" id="modal-header-height">
+  <h4 class="modal-title modal-font-weight-title pad-top-2">Add Category</h4>
+
+  <div class="margin-top-5">
+          <ul class="navbar-nav flex-row">
+                  <li class="nav-item">
+                          <a class="close cursor" (click)="activeModal.dismiss('Cross click')">
+                                  <p class="text-size-2">&times;</p>
+                          </a>
+                  </li>
+          </ul>
+  </div>
+</div>
+<div class="container">
+
+  <div class="row">
+
+    <div class="col-sm-10 offset-sm-1">
+
+      <div class="modal-body">
+        <form [formGroup]="form">
+          <div class="form-group">
+            <div>
+              <label class="mb-0 mt-2">Category Name</label>
+              <input class="form-control" type="text" formControlName="name" placeholder="Enter Category name"/>
+              <small role="alertName" class="text-danger" *ngIf="!form.get('name').valid &&
+              form.get('name').touched">Please provide category name</small>
+            </div>
+          </div>
+          <div class="flex-contianer">
+            <button type="button" class="btn btn-outline-danger" (click)="activeModal.close('Close click')">Close</button>
+            <button class="btn btn-success" (click)="onCreateCategory()"  [disabled]="!form.valid">{{ editCategory !== null ? 'Save Category' : 'Create Category' }}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

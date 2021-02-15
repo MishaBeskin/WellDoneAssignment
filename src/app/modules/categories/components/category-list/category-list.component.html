@@ -1,0 +1,16 @@
+<div class="container" style="margin-top: 70px;">
+  <div class="category__list row row">
+    <div *ngFor="let category of categories" (click)="selectCategory(category)" class="cursor ca category__list__item  col-xl-4  col-sm-12 mt-3">
+    <div class="card card-default shadow-sm"  [ngClass]="{'active' : (selectedItem .id === category.id)}">
+      <div class="flex-contianer-list space-around">
+          <div class="mt-3 mb-3 p-0 category__list__item__avatar d-flex flex-row">
+            <div class="text-center">
+               <p class="card-text category__list__item__colorBage--gray" style="font-size: 12px;font-weight: 500;">{{category.name}}</p>
+            </div>
+         </div>
+      </div>
+    </div>
+   </div>
+  </div>
+
+
