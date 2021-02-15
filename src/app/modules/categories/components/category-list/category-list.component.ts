@@ -23,6 +23,7 @@ export class CategoryListComponent implements OnInit, OnDestroy {
   public selectedItem: any = {};
   private isSelected = false;
   ngOnInit() {
+    this.dataService.unSelect().subscribe();
     this.categoriesSub = this.dataService.categories.subscribe(categories => {
       this.categories = categories;
     });
@@ -44,6 +45,7 @@ export class CategoryListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.dataService.unSelect().subscribe();
     if (this.categoriesSub) {
       this.categoriesSub.unsubscribe();
     }
