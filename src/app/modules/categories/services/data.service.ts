@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Category, Location } from '../../../entities.model';
+import { Category, LocationCat } from '../../../entities.model';
 import { take, map, tap, delay } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 
@@ -11,6 +11,7 @@ export class DataService {
 
 
   categoryId: string;
+  locationId: string;
   cords: string;
 
   private _categories = new BehaviorSubject<Category[]>([
@@ -28,8 +29,8 @@ export class DataService {
     )
   ]);
 
-  private _locations = new BehaviorSubject<Location[]>([
-    new Location(
+  private _locations = new BehaviorSubject<LocationCat[]>([
+    new LocationCat(
       "1",
       "Location Name 1",
       "409 Illinois St San Francisco, CA 94158",
@@ -37,7 +38,7 @@ export class DataService {
       "1",
       "assets/locationPhotos/locationPhoto.jpg"
     ),
-    new Location(
+    new LocationCat(
       "2",
       "Location Name 2",
       "409 Illinois St San Francisco, CA 94158",
@@ -45,7 +46,7 @@ export class DataService {
       "2",
       "assets/locationPhotos/locationPhoto.jpg"
     ),
-    new Location(
+    new LocationCat(
       "3",
       "Location Name 3",
       "409 Illinois St San Francisco, CA 94158",
@@ -60,7 +61,17 @@ export class DataService {
     "Categories"
   ));
 
+  private location = new BehaviorSubject<LocationCat>(new LocationCat(
+    "0",
+    "Locations",
+    "0",
+    "0",
+    "0",
+    "0"
+  ));
+
   currentCategory = this.category.asObservable();
+  currentLocation = this.location.asObservable();
 
   get categories() {
     return this._categories.asObservable();
@@ -73,16 +84,29 @@ export class DataService {
   constructor(private http: HttpClient) { }
 
   changeCategory(category: Category) {
-    this.category.next(category)
+    this.category.next(category);
   }
 
-
+  changeLocation(location: LocationCat) {
+    this.location.next(location);
+  }
 
   getCategory(id: string) {
     return this.categories.pipe(
       take(1),
       map(categories => {
         const temp = categories.find(c => c.id === id);
+        return temp ? { ...temp } : null;
+      })
+    );
+  }
+
+
+  getLocation(id: string) {
+    return this.locations.pipe(
+      take(1),
+      map(locations => {
+        const temp = locations.find(l => l.id === id);
         return temp ? { ...temp } : null;
       })
     );
@@ -104,9 +128,28 @@ export class DataService {
     );
   }
 
-
-
-
+  public createLocation(
+    name: string,
+    address: string,
+    cords: string,
+    categoryId: string
+  ) {
+    const newLocation = new LocationCat(
+      Math.floor(Math.random() * 100).toString(),
+      name,
+      address,
+      cords,
+      categoryId,
+      "assets/locationPhotos/locationPhoto.jpg"
+    );
+    return this.locations.pipe(
+      take(1),
+      delay(1000),
+      tap(locations => {
+        this._locations.next(locations.concat(newLocation));
+      })
+    );
+  }
 
 
   updateCategory(
@@ -131,7 +174,42 @@ export class DataService {
     );
   }
 
-  delete(categoryId: string) {
+
+
+  updateLocation(
+    locationId: string,
+    name: string,
+    address: string,
+    cords: string,
+    categoryId: string
+  ) {
+    return this.locations.pipe(
+      take(1),
+      delay(1000),
+      tap(locations => {
+        const updatedLocationIdIndex = locations.findIndex(loc => loc.id === locationId);
+        const updatedLocations = [...locations];
+        const oldLocation = updatedLocations[updatedLocationIdIndex];
+        updatedLocations[updatedLocationIdIndex] = new LocationCat(
+          oldLocation.id,
+          name,
+          address,
+          cords,
+          categoryId,
+          oldLocation.locationUrl
+        );
+        this._locations.next(updatedLocations);
+        this.location.next(updatedLocations[updatedLocationIdIndex]);
+        this.locationId = null;
+      })
+    );
+  }
+
+
+
+
+
+  deleteCategory(categoryId: string) {
     return this.categories.pipe(
       take(1),
       delay(1000),
@@ -144,6 +222,25 @@ export class DataService {
       })
     );
   }
+
+  deleteLocation(locationId: string) {
+    return this.locations.pipe(
+      take(1),
+      delay(1000),
+      tap(locations => {
+        this._locations.next(locations.filter(l => l.id !== locationId));
+        this.location.next(new LocationCat(
+          "0",
+          "Locations",
+          "0",
+          "0",
+          "0",
+          "0"
+        ));
+      })
+    );
+  }
+
   unSelect() {
     return this.categories.pipe(
       take(1),
@@ -151,6 +248,13 @@ export class DataService {
         this.category.next(new Category(
           "0",
           "Categories"
+        )), this.location.next(new LocationCat(
+          "0",
+          "Locations",
+          "0",
+          "0",
+          "0",
+          "0"
         ));
       })
     );

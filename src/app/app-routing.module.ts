@@ -10,6 +10,10 @@ const routes: Routes = [
   {
     path: 'category-list',
     loadChildren: () => import('../app/modules/categories/categories.module').then(m => m.CategoriesModule),
+  },
+  {
+    path: 'location-list',
+    loadChildren: () => import('../app/modules/categories/categories.module').then(m => m.CategoriesModule),
   }
 ];
 

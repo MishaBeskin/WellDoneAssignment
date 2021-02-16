@@ -1,9 +1,12 @@
+import { Location } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
-import { Category, Location } from 'src/app/entities.model';
+import { Category, LocationCat } from 'src/app/entities.model';
 import { CategoryCreateComponent } from 'src/app/modules/categories/components/category-create/category-create.component';
 import { CategoryLocationsComponent } from 'src/app/modules/categories/components/category-locations/category-locations.component';
+import { LocationCreateComponent } from 'src/app/modules/categories/components/location-create/location-create.component';
 import { DataService } from 'src/app/modules/categories/services/data.service';
 import Swal from 'sweetalert2';
 @Component({
@@ -12,15 +15,31 @@ import Swal from 'sweetalert2';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  constructor(private dataSrv: DataService, private modalService: NgbModal) { }
+  constructor(private dataSrv: DataService,
+    private modalService: NgbModal,
+    location: Location, router: Router
+  ) {
+    router.events.subscribe(val => {
+      if (location.path() === "/category-list") {
+        this.route = "category";
+      } else {
+        this.route = "location";
+      }
+    });
+
+  }
+  route: string;
   subscription: Subscription;
+  subscriptionLocationName: Subscription;
   categoryName: Category;
+  locationName: LocationCat;
   categories: Category[];
-  locations: Location[];
+  locations: LocationCat[];
   private categoriesSub: Subscription;
   private locationsSub: Subscription;
   ngOnInit(): void {
     this.subscription = this.dataSrv.currentCategory.subscribe(categoryName => this.categoryName = categoryName)
+    this.subscriptionLocationName = this.dataSrv.currentLocation.subscribe(locationName => this.locationName = locationName)
   }
 
 
@@ -50,7 +69,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
 
-  edit(category: Category) {
+  editCategory(category: Category) {
     const modalRef = this.modalService.open(
       CategoryCreateComponent,
       {
@@ -61,6 +80,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
     );
     modalRef.componentInstance.category = category;
   }
+
+  editLocation(location: LocationCat) {
+    const modalRef = this.modalService.open(
+      LocationCreateComponent,
+      {
+        centered: true,
+        backdrop: 'static',
+        keyboard: false
+      }
+    );
+    modalRef.componentInstance.location = location;
+  }
+
   createNewCategory() {
     const modalRef = this.modalService.open(
       CategoryCreateComponent,
@@ -72,7 +104,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
     );
     modalRef.componentInstance.category = null;
   }
-  delete(categoryId: string) {
+
+  createNewLocation() {
+    const modalRef = this.modalService.open(
+      LocationCreateComponent,
+      {
+        centered: true,
+        backdrop: 'static',
+        keyboard: false
+      }
+    );
+    modalRef.componentInstance.location = null;
+  }
+
+
+  deleteCategory(categoryId: string) {
     Swal.fire({
       title: 'Are you sure?',
       text: 'You will not be able to recover this Category!',
@@ -82,7 +128,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       cancelButtonText: 'No, keep it'
     }).then((result) => {
       if (result.value) {
-        this.dataSrv.delete(categoryId).subscribe(() => {
+        this.dataSrv.deleteCategory(categoryId).subscribe(() => {
           Swal.fire(
             'Deleted!',
             'Your Category has been deleted.',
@@ -98,6 +144,35 @@ export class HeaderComponent implements OnInit, OnDestroy {
       }
     })
   }
+
+  deleteLocation(locationId: string) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this Location!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.value) {
+        this.dataSrv.deleteLocation(locationId).subscribe(() => {
+          Swal.fire(
+            'Deleted!',
+            'Your Location has been deleted.',
+            'success'
+          )
+        });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelled',
+          'Your Location is safe :)',
+          'error'
+        )
+      }
+    })
+  }
+
+
   ngOnDestroy() {
     this.subscription.unsubscribe();
     if (this.categoriesSub) {
@@ -105,6 +180,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
     if (this.locationsSub) {
       this.locationsSub.unsubscribe();
+    }
+    if (this.subscriptionLocationName) {
+      this.subscriptionLocationName.unsubscribe();
     }
   }
 }

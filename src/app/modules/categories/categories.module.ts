@@ -6,9 +6,11 @@ import { CategoryListComponent } from './components/category-list/category-list.
 import { CategoryCreateComponent } from './components/category-create/category-create.component';
 import { CategoriesRoutingModule } from './categories-routing.module';
 import { CategoryLocationsComponent } from './components/category-locations/category-locations.component';
+import { LocationListComponent } from './components/location-list/location-list.component';
+import { LocationCreateComponent } from './components/location-create/location-create.component';
 
 @NgModule({
-  declarations: [CategoryListComponent, CategoryCreateComponent, CategoryLocationsComponent],
+  declarations: [CategoryListComponent, CategoryCreateComponent, CategoryLocationsComponent, LocationListComponent, LocationCreateComponent],
   imports: [
     CommonModule,
     FormsModule,

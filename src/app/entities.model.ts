@@ -6,7 +6,7 @@ export class Category {
 }
 
 
-export class Location {
+export class LocationCat {
   constructor(
     public id: string,
     public name: string,

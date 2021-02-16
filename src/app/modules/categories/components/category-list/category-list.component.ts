@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { CategoryCreateComponent } from '../category-create/category-create.component';
-import { Category, Location } from '../../../../entities.model';
+import { Category, LocationCat } from '../../../../entities.model';
 import { DataService } from '../../services/data.service';
 import Swal from 'sweetalert2';
 
@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
 })
 export class CategoryListComponent implements OnInit, OnDestroy {
   categories: Category[];
-  locations: Location[];
+  locations: LocationCat[];
   private categoriesSub: Subscription;
   private locationsSub: Subscription;
   selectedCategory: Category;
@@ -29,7 +29,6 @@ export class CategoryListComponent implements OnInit, OnDestroy {
     });
   }
   selectCategory(category) {
-    debugger;
     if (category.id === this.selectedItem.id && this.isSelected === true) {
       this.isSelected = false;
       this.selectedItem = {};

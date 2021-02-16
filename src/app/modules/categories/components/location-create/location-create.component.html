@@ -1,0 +1,60 @@
+
+<div class="modal-header" id="modal-header-height">
+  <h4 class="modal-title modal-font-weight-title pad-top-2">Add Location</h4>
+
+  <div class="margin-top-5">
+          <ul class="navbar-nav flex-row">
+                  <li class="nav-item">
+                          <a class="close cursor" (click)="activeModal.dismiss('Cross click')">
+                                  <p class="text-size-2">&times;</p>
+                          </a>
+                  </li>
+          </ul>
+  </div>
+</div>
+<div class="container">
+
+  <div class="row">
+
+    <div class="col-sm-10 offset-sm-1">
+
+      <div class="modal-body">
+        <form [formGroup]="form">
+          <div class="form-group">
+           <div>
+              <label class="mb-0 mt-2">Location Name</label>
+              <input class="form-control" type="text" formControlName="name" placeholder="Enter Location name"/>
+              <small role="alertName" class="text-danger" *ngIf="!form.get('name').valid &&
+              form.get('name').touched">Please provide location name</small>
+            </div>
+            <div>
+              <label class="mb-0 mt-2">Location Address</label>
+              <input class="form-control" type="text" formControlName="address" placeholder="Enter Location address"/>
+              <small class="text-danger" *ngIf="!form.get('address').valid &&
+              form.get('address').touched">Please provide location address</small>
+            </div>
+            <div>
+              <label class="mb-0 mt-2">Location Cords</label>
+              <input class="form-control" type="text" formControlName="cords" placeholder="Enter Location cords"/>
+              <small class="text-danger" *ngIf="!form.get('cords').valid &&
+              form.get('cords').touched">Please provide location cords</small>
+            </div>
+            <div>
+              <label class="mb-0 mt-2">Location Category</label>
+              <select class="form-control" formControlName="category">
+                <option value="0">Select Location category</option>
+                <option *ngFor="let category of categories" value="{{category.id}}">{{category.name}}</option>
+              </select>
+              <small class="text-danger" *ngIf="!form.get('category').valid &&
+              form.get('category').touched">Please provide location category</small>
+            </div>
+          </div>
+          <div class="flex-contianer">
+            <button type="button" class="btn btn-outline-danger" (click)="activeModal.close('Close click')">Close</button>
+            <button class="btn btn-success" (click)="onCreateLocation()"  [disabled]="!form.valid">{{ editLocation !== null ? 'Save Location' : 'Create Location' }}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
