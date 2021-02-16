@@ -8,14 +8,17 @@ import { CategoriesRoutingModule } from './categories-routing.module';
 import { CategoryLocationsComponent } from './components/category-locations/category-locations.component';
 import { LocationListComponent } from './components/location-list/location-list.component';
 import { LocationCreateComponent } from './components/location-create/location-create.component';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { MapComponent } from './components/map/map.component';
 
 @NgModule({
-  declarations: [CategoryListComponent, CategoryCreateComponent, CategoryLocationsComponent, LocationListComponent, LocationCreateComponent],
+  declarations: [CategoryListComponent, CategoryCreateComponent, CategoryLocationsComponent, LocationListComponent, LocationCreateComponent, MapComponent],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     CategoriesRoutingModule,
+    LeafletModule
   ]
 })
 export class CategoriesModule { }

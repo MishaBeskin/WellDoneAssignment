@@ -34,7 +34,7 @@ export class DataService {
       "1",
       "Location Name 1",
       "409 Illinois St San Francisco, CA 94158",
-      "lat:35.253,lng:32.256",
+      "37.768376,-122.389136",
       "1",
       "assets/locationPhotos/locationPhoto.jpg"
     ),
@@ -42,7 +42,7 @@ export class DataService {
       "2",
       "Location Name 2",
       "409 Illinois St San Francisco, CA 94158",
-      "lat:35.253,lng:32.256",
+      "37.768376,-122.389136",
       "2",
       "assets/locationPhotos/locationPhoto.jpg"
     ),
@@ -50,7 +50,7 @@ export class DataService {
       "3",
       "Location Name 3",
       "409 Illinois St San Francisco, CA 94158",
-      "lat:35.253,lng:32.256",
+      "37.768376,-122.389136",
       "3",
       "assets/locationPhotos/locationPhoto.jpg"
     )

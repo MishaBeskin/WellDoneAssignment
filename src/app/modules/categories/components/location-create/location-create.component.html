@@ -27,18 +27,22 @@
               <small role="alertName" class="text-danger" *ngIf="!form.get('name').valid &&
               form.get('name').touched">Please provide location name</small>
             </div>
-            <div>
+            <div class="mb-3">
               <label class="mb-0 mt-2">Location Address</label>
-              <input class="form-control" type="text" formControlName="address" placeholder="Enter Location address"/>
+              <input class="form-control" (keyup)="addressLookup($event.target.value)" (click)="$event.stopPropagation()" type="text" formControlName="address" placeholder="Enter Location address"/>
               <small class="text-danger" *ngIf="!form.get('address').valid &&
               form.get('address').touched">Please provide location address</small>
             </div>
+
+            <app-map [locationSelect]="cords" (cordsLoc)="updateLocationCords($event)" (cordsLocation)="updateLocation($event)"></app-map>
+
             <div>
               <label class="mb-0 mt-2">Location Cords</label>
               <input class="form-control" type="text" formControlName="cords" placeholder="Enter Location cords"/>
               <small class="text-danger" *ngIf="!form.get('cords').valid &&
               form.get('cords').touched">Please provide location cords</small>
             </div>
+
             <div>
               <label class="mb-0 mt-2">Location Category</label>
               <select class="form-control" formControlName="category">

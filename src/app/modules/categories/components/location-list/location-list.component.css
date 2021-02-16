@@ -79,6 +79,10 @@
   max-width:50%;
 }
 
+.width85{
+  max-width:85%;
+}
+
 .cursor:hover {
   cursor: pointer;
 }
