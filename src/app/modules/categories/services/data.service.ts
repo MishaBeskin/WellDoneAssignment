@@ -32,23 +32,47 @@ export class DataService {
   private _locations = new BehaviorSubject<LocationCat[]>([
     new LocationCat(
       "1",
-      "Location Name 1",
+      "San Francisco",
       "409 Illinois St San Francisco, CA 94158",
       "37.768376,-122.389136",
       "1",
-      "assets/locationPhotos/locationPhoto.jpg"
+      "assets/locationPhotos/sf.jpg"
     ),
     new LocationCat(
       "2",
-      "Location Name 2",
+      "New York",
+      "West St, New York, 10007",
+      "40.712616, -74.013183",
+      "2",
+      "assets/locationPhotos/ny.jpg"
+    ),
+    new LocationCat(
+      "3",
+      "Tel Aviv",
+      "גבעת התחמושת, תל אביב-יפו",
+      "32.075935, 34.793798",
+      "3",
+      "assets/locationPhotos/tlv.jpg"
+    ),
+    new LocationCat(
+      "4",
+      "Location Name B",
+      "409 Illinois St San Francisco, CA 94158",
+      "37.768376,-122.389136",
+      "3",
+      "assets/locationPhotos/locationPhoto.jpg"
+    ),
+    new LocationCat(
+      "5",
+      "Location Name C",
       "409 Illinois St San Francisco, CA 94158",
       "37.768376,-122.389136",
       "2",
       "assets/locationPhotos/locationPhoto.jpg"
     ),
     new LocationCat(
-      "3",
-      "Location Name 3",
+      "6",
+      "Location Name A",
       "409 Illinois St San Francisco, CA 94158",
       "37.768376,-122.389136",
       "3",
